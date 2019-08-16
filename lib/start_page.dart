@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusable_card.dart';
 import 'icon_content.dart';
 import 'style.dart';
+import 'results_page.dart';
 
 const double bottomContainerHeight = 80;
 enum Gender { male, female }
@@ -15,6 +16,8 @@ class StartPage extends StatefulWidget {
 class _StartPageState extends State<StartPage> {
   Gender selectedGender;
   int height = 180;
+  int weight = 60;
+  int age = 25;
 
   @override
   Widget build(BuildContext context) {
@@ -82,17 +85,26 @@ class _StartPageState extends State<StartPage> {
                       )
                     ],
                   ),
-                  Slider(
-                    value: height.toDouble(),
-                    activeColor: Color(0xFFEB1555),
-                    inactiveColor: Color(0xFF8D8E98),
-                    min: 120,
-                    max: 220,
-                    onChanged: (double newValue) {
-                      setState(() {
-                        height = newValue.toInt();
-                      });
-                    },
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                        thumbShape:
+                            RoundSliderThumbShape(enabledThumbRadius: 15),
+                        overlayShape:
+                            RoundSliderOverlayShape(overlayRadius: 30),
+                        thumbColor: Color(0xFFEB1555),
+                        activeTrackColor: Colors.white,
+                        inactiveTrackColor: Color(0xFF8D8E98),
+                        overlayColor: Color(0x1fEB1555)),
+                    child: Slider(
+                      value: height.toDouble(),
+                      min: 120,
+                      max: 220,
+                      onChanged: (double newValue) {
+                        setState(() {
+                          height = newValue.toInt();
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -100,18 +112,107 @@ class _StartPageState extends State<StartPage> {
             Expanded(
               child: Row(
                 children: <Widget>[
-                  Expanded(child: ReusableCard(color: kActiveCardColor)),
-                  Expanded(child: ReusableCard(color: kActiveCardColor)),
+                  Expanded(
+                      child: ReusableCard(
+                    color: kActiveCardColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('WEIGHT', style: kLabelStyle),
+                        Text(weight.toString(), style: kNumericStyle),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  weight--;
+                                });
+                              },
+                            ),
+                            SizedBox(width: 10),
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  weight++;
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
+                  Expanded(
+                      child: ReusableCard(
+                    color: kActiveCardColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('AGE', style: kLabelStyle),
+                        Text(
+                          age.toString(),
+                          style: kNumericStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            RoundIconButton(
+                                icon: FontAwesomeIcons.minus,
+                                onPressed: () {
+                                  setState(() {
+                                    if (age > 1) age--;
+                                  });
+                                }),
+                            SizedBox(width: 10),
+                            RoundIconButton(
+                                icon: FontAwesomeIcons.plus,
+                                onPressed: () {
+                                  setState(() {
+                                    if (age < 150) age++;
+                                  });
+                                })
+                          ],
+                        )
+                      ],
+                    ),
+                  )),
                 ],
               ),
             ),
-            Container(
-              color: kBottomContainerColor,
-              margin: EdgeInsets.only(top: 10),
-              width: double.infinity,
-              height: bottomContainerHeight,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ResultsPage();
+                }));
+              },
+              child: Container(
+                child: Text('CALCULATE'),
+                color: kBottomContainerColor,
+                margin: EdgeInsets.only(top: 10),
+                width: double.infinity,
+                height: bottomContainerHeight,
+              ),
             )
           ],
         ));
+  }
+}
+
+class RoundIconButton extends StatelessWidget {
+  final IconData icon;
+  final Function onPressed;
+  RoundIconButton({@required this.icon, @required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+        child: Icon(icon),
+        onPressed: onPressed,
+        shape: CircleBorder(),
+        fillColor: Color(0xFF4C4F5E),
+        constraints: BoxConstraints.tightFor(width: 56, height: 56));
   }
 }
