@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'reusable_card.dart';
-import 'icon_content.dart';
-import 'style.dart';
-import 'results_page.dart';
+import 'package:bmi_calculator_app/components/reusable_card.dart';
+import 'package:bmi_calculator_app/components/icon_content.dart';
+import 'package:bmi_calculator_app/style.dart';
+import 'package:bmi_calculator_app/screens/results_page.dart';
+import 'package:bmi_calculator_app/components/round_icon_btn.dart';
+import 'package:bmi_calculator_app/components/bottom_btn.dart';
+import 'package:bmi_calculator_app/bmi_brain.dart';
 
-const double bottomContainerHeight = 80;
 enum Gender { male, female }
 
 class StartPage extends StatefulWidget {
@@ -182,37 +184,20 @@ class _StartPageState extends State<StartPage> {
                 ],
               ),
             ),
-            GestureDetector(
+            BottomButton(
+              title: 'CALCULATE',
               onTap: () {
+                BMICalculator bmiCalc =
+                    BMICalculator(height: height, weight: weight);
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ResultsPage();
+                  return ResultsPage(
+                      bmiNumResult: bmiCalc.calculateBMI(),
+                      result: bmiCalc.getResult(),
+                      bmiSuggestion: bmiCalc.getSuggestion());
                 }));
               },
-              child: Container(
-                child: Text('CALCULATE'),
-                color: kBottomContainerColor,
-                margin: EdgeInsets.only(top: 10),
-                width: double.infinity,
-                height: bottomContainerHeight,
-              ),
             )
           ],
         ));
-  }
-}
-
-class RoundIconButton extends StatelessWidget {
-  final IconData icon;
-  final Function onPressed;
-  RoundIconButton({@required this.icon, @required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-        child: Icon(icon),
-        onPressed: onPressed,
-        shape: CircleBorder(),
-        fillColor: Color(0xFF4C4F5E),
-        constraints: BoxConstraints.tightFor(width: 56, height: 56));
   }
 }
