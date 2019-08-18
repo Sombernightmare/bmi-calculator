@@ -15,3 +15,7 @@ const kResultStyle = TextStyle(
     color: Color(0xFF24D876), fontSize: 22, fontWeight: FontWeight.bold);
 const kBMIStyle = TextStyle(fontSize: 100, fontWeight: FontWeight.bold);
 const kBodyStyle = TextStyle(fontSize: 22);
+const kDetailLabel = TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
+const kPercentileNum = TextStyle(fontSize: 70, fontWeight: FontWeight.bold);
+const kPercentileStyle = TextStyle(fontSize: 20, color: Color(0xFF8D8E98));
+const kDetailText = TextStyle(fontSize: 18);
