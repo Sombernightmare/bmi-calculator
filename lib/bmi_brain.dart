@@ -30,7 +30,7 @@ class BMICalculator {
     if (_bmi >= 25)
       result =
           'You have a higher than normal body weight. More exercise needed';
-    else if (_bmi >= 18) result = 'You have a normal body weight. Good Job!';
+    else if (_bmi >= 18) result = 'You have a normal body weight. \nGood Job!';
 
     return result;
   }

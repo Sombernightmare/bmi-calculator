@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bmi_calculator_app/components/reusable_card.dart';
 import 'package:bmi_calculator_app/style.dart';
 import 'package:bmi_calculator_app/components/bottom_btn.dart';
+import 'package:bmi_calculator_app/screens/details_page.dart';
 
 class ResultsPage extends StatelessWidget {
   ResultsPage(
@@ -44,7 +45,24 @@ class ResultsPage extends StatelessWidget {
                     Text('18.5 - 25 kg/m2'),
                   ]),
                   Text(bmiSuggestion,
-                      style: kBodyStyle, textAlign: TextAlign.center)
+                      style: kBodyStyle, textAlign: TextAlign.center),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return DetailsPage();
+                      }));
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 150,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: kDetailsBtnColor),
+                      child: Text('Details'),
+                    ),
+                  )
                 ],
               ),
             ),
